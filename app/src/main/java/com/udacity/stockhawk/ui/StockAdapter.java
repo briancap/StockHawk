@@ -18,7 +18,9 @@ import com.udacity.stockhawk.data.PrefUtils;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -34,6 +36,7 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
     private final DecimalFormat percentageFormat;
     private Cursor cursor;
     private final StockAdapterOnClickHandler clickHandler;
+    private final String LOG_TAG = getClass().getSimpleName();
 
     StockAdapter(Context context, StockAdapterOnClickHandler clickHandler) {
         this.context = context;
@@ -138,18 +141,36 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
             clickHandler.onClick(cursor.getString(symbolColumn));
             //Toast.makeText(context, cursor.getString(Contract.Quote.POSITION_SYMBOL), Toast.LENGTH_SHORT).show();
 
-            HashMap<Object, Object> singleRow = new HashMap<>();
+            HashMap<Object, Object> singleStock = new HashMap<>();
+
+            /*
+            puts the cursor information into a HashMAp that can then be passed to detail activity
+                could also just pass the stock symbol and then look data up in the db again... more expensive?
+                redundant to call DB more than once?
+             */
             for(int i = 0; i < cursor.getColumnCount(); i++){
-                singleRow.put(cursor.getColumnName(i), cursor.getString(i));
-                Log.e("*************", cursor.getString(i));
+                if(i == Contract.Quote.POSITION_ID ){
+                    singleStock.put(cursor.getColumnName(i), cursor.getInt(i));
+
+                } else if(i == Contract.Quote.POSITION_SYMBOL
+                            || i == Contract.Quote.POSITION_HISTORY
+                        ){
+                    singleStock.put(cursor.getColumnName(i), cursor.getString(i));
+
+                } else if( i == Contract.Quote.POSITION_PRICE
+                            || i == Contract.Quote.POSITION_ABSOLUTE_CHANGE
+                            || i == Contract.Quote.POSITION_PERCENTAGE_CHANGE){
+                    singleStock.put(cursor.getColumnName(i), cursor.getDouble(i));
+                }
             }
 
             Intent intent = new Intent(context, StockDetailActivity.class);
-            intent.putExtra("data", singleRow);
+            intent.putExtra("data", singleStock);
             context.startActivity(intent);
 
         }
 
 
     }
+
 }

@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 
@@ -19,10 +22,10 @@ import butterknife.ButterKnife;
 
 public class StockDetailActivity extends AppCompatActivity {
 
-    @BindView(R.id.stock_detail_test)
-    TextView tv;
+    @BindView(R.id.graph_view)
+    GraphView graphView;
 
-    HashMap<Object, Object> singleRow;
+    HashMap<Object, Object> singleStock;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -31,11 +34,12 @@ public class StockDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if(intent != null){
-            singleRow = (HashMap) intent.getSerializableExtra("data");
+            singleStock = (HashMap) intent.getSerializableExtra("data");
         }
 
         ButterKnife.bind(this);
-        tv.setText(singleRow.get((String) Contract.Quote.COLUMN_SYMBOL).toString());
+
+
 
     }
 
