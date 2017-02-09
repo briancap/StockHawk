@@ -42,10 +42,13 @@ public final class QuoteSyncJob {
 
     private static final String LOG_TAG = "QuoteSyncJob";
 
+    public static boolean stockAddFailed;
+
     private QuoteSyncJob() {
     }
 
     static void getQuotes(Context context) {
+        stockAddFailed = false; //needs to be reset every time this runs
 
         Timber.d("Running sync job");
 
@@ -72,50 +75,53 @@ public final class QuoteSyncJob {
             Timber.d(quotes.toString());
 
             ArrayList<ContentValues> quoteCVs = new ArrayList<>();
-            try{
-                while (iterator.hasNext()) {
-                    String symbol = iterator.next();
+
+            while (iterator.hasNext()) {
+                String symbol = iterator.next();
+
+                Stock stock = quotes.get(symbol);
+                StockQuote quote = stock.getQuote();
+                try{
+                    float price = quote.getPrice().floatValue();
+                    float change = quote.getChange().floatValue();
+                    float percentChange = quote.getChangeInPercent().floatValue();
+
+                    // WARNING! Don't request historical data for a stock that doesn't exist!
+                    // The request will hang forever X_x
+                    List<HistoricalQuote> history = stock.getHistory(from, to, Interval.WEEKLY);
+
+                    StringBuilder historyBuilder = new StringBuilder();
+
+                    for (HistoricalQuote it : history) {
+                        historyBuilder.append(it.getDate().getTimeInMillis());
+                        historyBuilder.append(", ");
+                        historyBuilder.append(it.getClose());
+                        historyBuilder.append("\n");
+                    }
+
+                    ContentValues quoteCV = new ContentValues();
+                    quoteCV.put(Contract.Quote.COLUMN_SYMBOL, symbol);
+                    quoteCV.put(Contract.Quote.COLUMN_PRICE, price);
+                    quoteCV.put(Contract.Quote.COLUMN_PERCENTAGE_CHANGE, percentChange);
+                    quoteCV.put(Contract.Quote.COLUMN_ABSOLUTE_CHANGE, change);
 
 
-                    Stock stock = quotes.get(symbol);
-                    StockQuote quote = stock.getQuote();
+                    quoteCV.put(Contract.Quote.COLUMN_HISTORY, historyBuilder.toString());
 
-                    //getter methods of StockQuote return null if there is no data (stock doesn't exist)
-                    //so using a random getter as a null check.
-                    // there is no doesStockExist() method in the class
+                    quoteCVs.add(quoteCV);
+                } catch (NullPointerException e) {
+                    Timber.e("stock not found");
 
-                        float price = quote.getPrice().floatValue();
-                        float change = quote.getChange().floatValue();
-                        float percentChange = quote.getChangeInPercent().floatValue();
+                    stockAddFailed = true;
 
-                        // WARNING! Don't request historical data for a stock that doesn't exist!
-                        // The request will hang forever X_x
-                        List<HistoricalQuote> history = stock.getHistory(from, to, Interval.WEEKLY);
-
-                        StringBuilder historyBuilder = new StringBuilder();
-
-                        for (HistoricalQuote it : history) {
-                            historyBuilder.append(it.getDate().getTimeInMillis());
-                            historyBuilder.append(", ");
-                            historyBuilder.append(it.getClose());
-                            historyBuilder.append("\n");
-                        }
-
-                        ContentValues quoteCV = new ContentValues();
-                        quoteCV.put(Contract.Quote.COLUMN_SYMBOL, symbol);
-                        quoteCV.put(Contract.Quote.COLUMN_PRICE, price);
-                        quoteCV.put(Contract.Quote.COLUMN_PERCENTAGE_CHANGE, percentChange);
-                        quoteCV.put(Contract.Quote.COLUMN_ABSOLUTE_CHANGE, change);
-
-
-                        quoteCV.put(Contract.Quote.COLUMN_HISTORY, historyBuilder.toString());
-
-                        quoteCVs.add(quoteCV);
+                    //removes stocks that don't have data associated with them
+                    //most likely the result of a mistyped stock symbol
+                    PrefUtils.removeStock(context, symbol);
 
                 }
-            } catch (NullPointerException e) {
-                Log.e(LOG_TAG, "error adding stock");
+
             }
+
 
             context.getContentResolver()
                         .bulkInsert(

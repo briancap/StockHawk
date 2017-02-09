@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        checkIfStockAddFailed();
         swipeRefreshLayout.setRefreshing(false);
 
         if (data.getCount() != 0) {
@@ -187,6 +188,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void checkIfStockAddFailed(){
+        if(QuoteSyncJob.stockAddFailed) {
+            Toast.makeText(context, getString(R.string.stock_add_failed), Toast.LENGTH_SHORT).show();
+        }
     }
 
 

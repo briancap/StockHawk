@@ -34,6 +34,7 @@
 
     <!-- UI Strings-->
     <string name="add_stock_fragment" translatable="false">StockDialogFragment</string>
+    <string name="stock_add_failed">Failed to retrieve stock info. Please make sure the stock symbol you entered is correct</string>
 
     <!-- SYNC -->
 
