@@ -149,19 +149,7 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
                 redundant to call DB more than once?
              */
             for(int i = 0; i < cursor.getColumnCount(); i++){
-                if(i == Contract.Quote.POSITION_ID ){
-                    singleStock.put(cursor.getColumnName(i), cursor.getInt(i));
-
-                } else if(i == Contract.Quote.POSITION_SYMBOL
-                            || i == Contract.Quote.POSITION_HISTORY
-                        ){
-                    singleStock.put(cursor.getColumnName(i), cursor.getString(i));
-
-                } else if( i == Contract.Quote.POSITION_PRICE
-                            || i == Contract.Quote.POSITION_ABSOLUTE_CHANGE
-                            || i == Contract.Quote.POSITION_PERCENTAGE_CHANGE){
-                    singleStock.put(cursor.getColumnName(i), cursor.getDouble(i));
-                }
+                singleStock.put(cursor.getColumnName(i), cursor.getString(i));
             }
 
             Intent intent = new Intent(context, StockDetailActivity.class);
