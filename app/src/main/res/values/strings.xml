@@ -36,8 +36,10 @@
     <string name="add_stock_fragment" translatable="false">StockDialogFragment</string>
     <string name="stock_add_failed">Failed to retrieve stock info. Please make sure the stock symbol you entered is correct</string>
 
-    <!-- SYNC -->
-
+    <!-- Content Descriptions -->
+    <string name="add_stock_dialog_edit_text">enter stock symbol</string>
+    <string name="add_stock_button">add stock</string>
+    <string name="historical_stock_graph">historical stock price graph</string>
 
 
 
