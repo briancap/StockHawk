@@ -49,10 +49,14 @@
             android:label="@string/stock_hawk_widget_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="com.example.android.sunshine.app.ACTION_DATA_UPDATED" />
             </intent-filter>
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/widget_detail"/>
         </receiver>
+        <service android:name=".widget.WidgetRemoteViewService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false" /> <!-- exported=false so other apps can't interact with this service-->
     </application>
 
 </manifest>

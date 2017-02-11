@@ -1,5 +1,6 @@
 package com.udacity.stockhawk.ui;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -23,6 +24,7 @@ import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
 import com.udacity.stockhawk.sync.QuoteSyncJob;
+import com.udacity.stockhawk.widget.WidgetProvider;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

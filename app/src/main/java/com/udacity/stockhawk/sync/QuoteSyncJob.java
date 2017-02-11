@@ -128,6 +128,7 @@ public final class QuoteSyncJob {
                                 Contract.Quote.URI,
                                 quoteCVs.toArray(new ContentValues[quoteCVs.size()]));
 
+                //tells widget to update
                 Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
                 context.sendBroadcast(dataUpdatedIntent);
 
