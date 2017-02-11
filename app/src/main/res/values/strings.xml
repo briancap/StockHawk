@@ -42,6 +42,9 @@
     <string name="historical_stock_graph">historical stock price graph</string>
 
 
+    <!--Widgets-->
+    <string name="stock_hawk_widget_label">Stock Hawk</string>
+
 
 
 </resources>
