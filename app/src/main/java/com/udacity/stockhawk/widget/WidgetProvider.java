@@ -7,6 +7,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.udacity.stockhawk.R;
@@ -15,6 +16,8 @@ import com.udacity.stockhawk.ui.MainActivity;
 import com.udacity.stockhawk.ui.StockDetailActivity;
 
 public class WidgetProvider extends AppWidgetProvider{
+
+    private String LOG_TAG = getClass().getSimpleName();
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appIds){
@@ -49,12 +52,17 @@ public class WidgetProvider extends AppWidgetProvider{
     public void onReceive(Context context, Intent intent){
         super.onReceive(context, intent);
 
+        Log.e(LOG_TAG, "inside onReceive");
+
         if(QuoteSyncJob.ACTION_DATA_UPDATED.equals(intent.getAction())){
+            Log.e(LOG_TAG, "matched the broadcast");
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
                     new ComponentName(context, getClass())
             );
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_list);
+        } else {
+            Log.e(LOG_TAG, "didn't match the broadcast");
         }
     }
 
