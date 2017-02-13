@@ -12,7 +12,7 @@ import com.udacity.stockhawk.data.Contract;
 
 
 public class WidgetRemoteViewService extends RemoteViewsService {
-
+    public String LOG_TAG = getClass().getSimpleName();
 
 
     @Override
@@ -90,19 +90,34 @@ public class WidgetRemoteViewService extends RemoteViewsService {
                 RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.list_item_widget);
 
                 String stockSymbol = cursor.getString(Contract.Quote.POSITION_SYMBOL);
-                Double percentChange = cursor.getDouble(Contract.Quote.POSITION_PERCENTAGE_CHANGE);
+                float rawAbsoluteChange = cursor.getFloat(Contract.Quote.POSITION_ABSOLUTE_CHANGE);
+                float percentageChange = cursor.getFloat(Contract.Quote.POSITION_PERCENTAGE_CHANGE);
+
+                if(rawAbsoluteChange > 0){
+                    remoteViews.setInt(R.id.change, "setBackgroundResource", R.drawable.percent_change_pill_green);
+                    StringBuilder builder = new StringBuilder()
+                            .append("+")
+                            .append(String.format("%.2f", percentageChange))
+                            .append("%");
+                    remoteViews.setTextViewText(R.id.change, builder.toString());
+                } else {
+                    remoteViews.setInt(R.id.change, "setBackgroundResource", R.drawable.percent_change_pill_red);
+                    StringBuilder builder = new StringBuilder()
+                            .append(String.format("%.2f", percentageChange))
+                            .append("%");
+                    remoteViews.setTextViewText(R.id.change, builder.toString());
+                }
 
                 remoteViews.setTextViewText(R.id.symbol, stockSymbol);
-                remoteViews.setTextViewText(R.id.change, percentChange.toString());
 
                 Intent intent = new Intent();
 
                 //how am i going to use this to filter down to a single stock?
-                intent.setData(Contract.Quote.URI);
+                intent.setData(Contract.Quote.makeUriForStock(stockSymbol));
 
                 remoteViews.setOnClickFillInIntent(R.id.list_item_widget, intent);
 
-                return null;
+                return remoteViews;
             }
 
             @Override
@@ -117,13 +132,12 @@ public class WidgetRemoteViewService extends RemoteViewsService {
 
             @Override
             public long getItemId(int position) {
-                return 0; // this returns the weather_id in the Udacity example (used to get pic)
-                            // but I don't have a comparable use case for stocks (symbol?)
+                return position; // this will be the same if we always order stocks based on stock symbol
             }
 
             @Override
             public boolean hasStableIds() {
-                return false; //not changing to true because of choice in getItemId
+                return true; //not changing to true because of choice in getItemId
             }
         };
 
