@@ -52,17 +52,12 @@ public class WidgetProvider extends AppWidgetProvider{
     public void onReceive(Context context, Intent intent){
         super.onReceive(context, intent);
 
-        Log.e(LOG_TAG, "inside onReceive");
-
         if(QuoteSyncJob.ACTION_DATA_UPDATED.equals(intent.getAction())){
-            Log.e(LOG_TAG, "matched the broadcast");
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
                     new ComponentName(context, getClass())
             );
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_list);
-        } else {
-            Log.e(LOG_TAG, "didn't match the broadcast");
         }
     }
 
