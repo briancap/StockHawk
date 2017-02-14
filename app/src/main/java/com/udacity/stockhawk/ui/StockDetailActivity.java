@@ -33,6 +33,12 @@ public class StockDetailActivity extends AppCompatActivity  {
     GraphView graphView;
     @BindView(R.id.stock_symbol)
     TextView stockSymbolTV;
+    @BindView(R.id.current_price)
+    TextView currentPriceTV;
+    @BindView(R.id.percent_change)
+    TextView percentChangeTV;
+    @BindView(R.id.absolute_change)
+    TextView absoluteChangeTV;
 
     HashMap<Object, Object> singleStock;
     HashMap<Date, Double> stockHistory = new HashMap<>();
@@ -40,6 +46,8 @@ public class StockDetailActivity extends AppCompatActivity  {
 
     String stockSymbol;
     String currentStockPrice;
+    String percentChange;
+    float absoluteChange;
     String historyString;
 
     @Override
@@ -50,13 +58,47 @@ public class StockDetailActivity extends AppCompatActivity  {
 
         Intent intent = getIntent();
         if(intent != null) {
-            singleStock = (HashMap) intent.getSerializableExtra("data");
+            singleStock = (HashMap) intent.getSerializableExtra(getString(R.string.single_stock_map));
 
-            stockSymbol = singleStock.get(Contract.Quote.COLUMN_SYMBOL).toString();
-            currentStockPrice = singleStock.get(Contract.Quote.COLUMN_PRICE).toString();
-            historyString = singleStock.get(Contract.Quote.COLUMN_HISTORY).toString();
+            stockSymbol         = singleStock.get(Contract.Quote.COLUMN_SYMBOL).toString();
+            currentStockPrice   = singleStock.get(Contract.Quote.COLUMN_PRICE).toString();
+            percentChange       = singleStock.get(Contract.Quote.COLUMN_PERCENTAGE_CHANGE).toString();
+            absoluteChange      = Float.parseFloat(singleStock.get(Contract.Quote.COLUMN_ABSOLUTE_CHANGE).toString());
+            historyString       = singleStock.get(Contract.Quote.COLUMN_HISTORY).toString();
 
             stockSymbolTV.setText(stockSymbol);
+
+            currentPriceTV.setText(getString(R.string.money_symbol) + currentStockPrice);
+
+            if(absoluteChange > 0){
+                StringBuilder percentBuilder = new StringBuilder()
+                        .append("+")
+                        .append(percentChange)
+                        .append("%");
+
+                percentChangeTV.setText(percentBuilder.toString());
+
+                StringBuilder absoluteBuilder = new StringBuilder()
+                        .append("+")
+                        .append(getString(R.string.money_symbol))
+                        .append(Float.toString(absoluteChange));
+
+                absoluteChangeTV.setText(absoluteBuilder.toString());
+            } else {
+                StringBuilder percentBuilder = new StringBuilder()
+                        .append(percentChange)
+                        .append("%");
+
+                percentChangeTV.setText(percentBuilder.toString());
+
+                StringBuilder absoluteBuilder = new StringBuilder()
+                        .append("-")
+                        .append(getString(R.string.money_symbol))
+                        .append(Float.toString(Math.abs(absoluteChange)));
+
+                absoluteChangeTV.setText(absoluteBuilder.toString());
+            }
+
 
             formatHistoryData(historyString);
 

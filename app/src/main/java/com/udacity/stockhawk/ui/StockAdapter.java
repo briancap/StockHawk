@@ -38,6 +38,7 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
     private final StockAdapterOnClickHandler clickHandler;
     private final String LOG_TAG = getClass().getSimpleName();
 
+
     StockAdapter(Context context, StockAdapterOnClickHandler clickHandler) {
         this.context = context;
         this.clickHandler = clickHandler;
@@ -153,7 +154,7 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
             }
 
             Intent intent = new Intent(context, StockDetailActivity.class);
-            intent.putExtra("data", singleStock);
+            intent.putExtra("singleStockMap", singleStock);
             context.startActivity(intent);
 
         }

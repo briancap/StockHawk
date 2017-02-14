@@ -10,6 +10,8 @@ import android.widget.RemoteViewsService;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 
+import java.util.HashMap;
+
 
 public class WidgetRemoteViewService extends RemoteViewsService {
     public String LOG_TAG = getClass().getSimpleName();
@@ -110,10 +112,16 @@ public class WidgetRemoteViewService extends RemoteViewsService {
 
                 remoteViews.setTextViewText(R.id.symbol, stockSymbol);
 
+                //set the intent
+                HashMap<Object, Object> singleStock = new HashMap<>();
+                for(int i = 0; i < cursor.getColumnCount(); i++){
+                    singleStock.put(cursor.getColumnName(i), cursor.getString(i));
+                }
+
                 Intent intent = new Intent();
 
-                //how am i going to use this to filter down to a single stock?
-                intent.setData(Contract.Quote.makeUriForStock(stockSymbol));
+                intent.setData(Contract.Quote.makeUriForStock(stockSymbol));//how am i going to use this to filter down to a single stock?
+                intent.putExtra(getString(R.string.single_stock_map), singleStock);
 
                 remoteViews.setOnClickFillInIntent(R.id.list_item_widget, intent);
 

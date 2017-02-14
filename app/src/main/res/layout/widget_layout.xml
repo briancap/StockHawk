@@ -6,16 +6,18 @@
     android:gravity="center_vertical"
     android:orientation="vertical">
 
-
     <FrameLayout
         android:id="@+id/widget_title_frame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/material_green_700">
+        android:layout_height="@dimen/widget_title_frame_height"
+        android:background="@color/colorPrimary">
 
         <TextView
             android:id="@+id/widget_title"
+            android:textSize="25sp"
+            android:textStyle="bold"
             android:text="@string/app_name"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -30,8 +32,8 @@
             android:id="@+id/widget_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/list_item_widget"/>
-
+            tools:listitem="@layout/list_item_widget"
+            android:background="@color/widget_background"/>
 
     </FrameLayout>
 

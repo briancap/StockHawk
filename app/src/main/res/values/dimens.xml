@@ -1,3 +1,10 @@
 <resources>
     <dimen name="activity_horizontal_margin">16dp</dimen>
+
+    <dimen name="widget_title_frame_height">40dp</dimen>
+    <dimen name="widget_title_text_size">50dp</dimen>
+
+    <dimen name="stock_detail_label_width">100dp</dimen>
+    <dimen name="stock_detail_label_padding">10dp</dimen>
+    <dimen name="stock_detail_text_size">15sp</dimen>
 </resources>

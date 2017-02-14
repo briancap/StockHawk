@@ -35,6 +35,8 @@
     <!-- UI Strings-->
     <string name="add_stock_fragment" translatable="false">StockDialogFragment</string>
     <string name="stock_add_failed">Failed to retrieve stock info. Please make sure the stock symbol you entered is correct</string>
+    <string name="single_stock_map">singleStockMap</string>
+    <string name="money_symbol">$</string>
 
     <!-- Content Descriptions -->
     <string name="add_stock_dialog_edit_text">enter stock symbol</string>
@@ -44,6 +46,11 @@
 
     <!--Widgets-->
     <string name="stock_hawk_widget_label">Stock Hawk</string>
+
+    <!--Widget Layout-->
+    <string name="current_price">Price: </string>
+    <string name="percent_change">% Change: </string>
+    <string name="absolute_change">$ Change: </string>
 
 
 

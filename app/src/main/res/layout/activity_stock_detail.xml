@@ -3,21 +3,85 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp">
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp">
 
     <TextView
         android:id="@+id/stock_symbol"
         style="@style/StockSymbolTextStyle"
-        android:layout_marginBottom="20dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/stock_detail_label_width"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/stock_detail_label_padding"
+            android:textStyle="bold"
+            android:textSize="@dimen/stock_detail_text_size"
+            android:text="@string/current_price" />
+
+        <TextView
+            android:id="@+id/current_price"
+            android:textSize="@dimen/stock_detail_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/stock_detail_label_width"
+            android:textSize="@dimen/stock_detail_text_size"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/stock_detail_label_padding"
+            android:textStyle="bold"
+            android:text="@string/percent_change" />
+
+        <TextView
+            android:id="@+id/percent_change"
+            android:textSize="@dimen/stock_detail_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="30dp">
+
+        <TextView
+            android:layout_width="@dimen/stock_detail_label_width"
+            android:textSize="@dimen/stock_detail_text_size"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/stock_detail_label_padding"
+            android:textStyle="bold"
+            android:text="@string/absolute_change" />
+
+        <TextView
+            android:id="@+id/absolute_change"
+            android:textSize="@dimen/stock_detail_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
 
     <com.jjoe64.graphview.GraphView
         android:id="@+id/graph_view"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:contentDescription="@string/historical_stock_graph"/>
+        android:contentDescription="@string/historical_stock_graph" />
 
 </LinearLayout>
