@@ -1,87 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:paddingEnd="16dp"
     android:paddingStart="16dp">
 
-    <TextView
-        android:id="@+id/stock_symbol"
-        style="@style/StockSymbolTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp" />
-
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
         <TextView
-            android:layout_width="@dimen/stock_detail_label_width"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/stock_detail_label_padding"
-            android:textStyle="bold"
-            android:textSize="@dimen/stock_detail_text_size"
-            android:text="@string/current_price" />
-
-        <TextView
-            android:id="@+id/current_price"
-            android:textSize="@dimen/stock_detail_text_size"
+            android:id="@+id/stock_symbol"
+            style="@style/StockSymbolTextStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/stock_detail_label_width"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/stock_detail_label_padding"
+                android:text="@string/current_price"
+                android:textSize="@dimen/stock_detail_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/current_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/stock_detail_text_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/stock_detail_label_width"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/stock_detail_label_padding"
+                android:text="@string/percent_change"
+                android:textSize="@dimen/stock_detail_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/percent_change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/stock_detail_text_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="30dp">
+
+            <TextView
+                android:layout_width="@dimen/stock_detail_label_width"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/stock_detail_label_padding"
+                android:text="@string/absolute_change"
+                android:textSize="@dimen/stock_detail_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/absolute_change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/stock_detail_text_size" />
+
+        </LinearLayout>
+
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/graph_view"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:contentDescription="@string/historical_stock_graph" />
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="@dimen/stock_detail_label_width"
-            android:textSize="@dimen/stock_detail_text_size"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/stock_detail_label_padding"
-            android:textStyle="bold"
-            android:text="@string/percent_change" />
-
-        <TextView
-            android:id="@+id/percent_change"
-            android:textSize="@dimen/stock_detail_text_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="30dp">
-
-        <TextView
-            android:layout_width="@dimen/stock_detail_label_width"
-            android:textSize="@dimen/stock_detail_text_size"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/stock_detail_label_padding"
-            android:textStyle="bold"
-            android:text="@string/absolute_change" />
-
-        <TextView
-            android:id="@+id/absolute_change"
-            android:textSize="@dimen/stock_detail_text_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
-
-    <com.jjoe64.graphview.GraphView
-        android:id="@+id/graph_view"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:contentDescription="@string/historical_stock_graph" />
-
-</LinearLayout>
+</ScrollView>
